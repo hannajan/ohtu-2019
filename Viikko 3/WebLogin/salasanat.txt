@@ -2,3 +2,5 @@ pekka;akkep
 jukka;akkuj
 makke25854;newpassword
 makke70979;newpassword
+maximilian;secret5
+taunopalo;salainen1

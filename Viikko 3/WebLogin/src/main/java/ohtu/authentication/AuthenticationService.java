@@ -33,6 +33,20 @@ public class AuthenticationService {
         if (username.length()<3 ) {
             status.addError("username should have at least 3 characters");
         }
+        
+        if (password.length() < 8) {
+            status.addError("password should have at least 8 characters");
+        }
+        
+        if(extractNumber(password).equals("")) {
+            status.addError("password should contain at least one number");
+        }
+        
+        if(!password.equals(passwordConfirmation)) {
+            System.out.println(password);
+            System.out.println(passwordConfirmation);
+            status.addError("password and password confirmation do not match");
+        }
 
         if (status.isOk()) {
             userDao.add(new User(username, password));
@@ -40,5 +54,26 @@ public class AuthenticationService {
         
         return status;
     }
+    
+    private String extractNumber(final String str) {                
+
+    if(str == null || str.isEmpty()) return "";
+
+    StringBuilder sb = new StringBuilder();
+    boolean found = false;
+    for(char c : str.toCharArray()){
+        if(Character.isDigit(c)){
+            sb.append(c);
+            found = true;
+        } else if(found){
+            // If we already found a digit before and this char is not a digit, stop looping
+            break;                
+        }
+    }
+
+    return sb.toString();
+}
 
 }
+
+
