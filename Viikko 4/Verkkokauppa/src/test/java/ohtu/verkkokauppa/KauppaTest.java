@@ -16,7 +16,9 @@ public class KauppaTest {
         pankki = mock(Pankki.class);
 
         viite = mock(Viitegeneraattori.class);
-        when(viite.uusi()).thenReturn(42);
+        when(viite.uusi())
+            .thenReturn(42)
+            .thenReturn(33);
 
         varasto = mock(Varasto.class);
         when(varasto.saldo(1)).thenReturn(10);
@@ -83,5 +85,47 @@ public class KauppaTest {
 
         verify(pankki).tilisiirto(eq("pekka"), eq(42), eq("12345"), anyString(), eq(5));
     }
+    
+    @Test
+    public void asioinninAloittaminenNollaaSumman() {
+        kauppa.aloitaAsiointi();
+        kauppa.lisaaKoriin(1);
+        kauppa.tilimaksu("pekka", "12345");
+        
+        verify(pankki).tilisiirto(eq("pekka"), eq(42), eq("12345"), anyString(), eq(5));
+        
+        kauppa.aloitaAsiointi();
+        kauppa.lisaaKoriin(2);
+        kauppa.tilimaksu("minna", "34567");
+        
+        verify(pankki).tilisiirto(eq("minna"), anyInt(), eq("34567"), anyString(), eq(2));
+    }
+    
+    @Test
+    public void eriTilitapahtumilleGeneroidaanEriViitenumero() {
+        kauppa.aloitaAsiointi();
+        kauppa.lisaaKoriin(1);
+        kauppa.tilimaksu("pekka", "12345");
+        
+        verify(pankki).tilisiirto(eq("pekka"), eq(42), eq("12345"), anyString(), anyInt());
+        
+        kauppa.aloitaAsiointi();
+        kauppa.lisaaKoriin(1);
+        kauppa.tilimaksu("minna", "34567");
+        
+        verify(pankki).tilisiirto(eq("minna"), eq(33), eq("34567"), anyString(), anyInt());
+    }
+    
+    @Test
+    public void tuotteenOstoskoristaPoistoOnnistuu() {
+        kauppa.aloitaAsiointi();
+        kauppa.lisaaKoriin(1);
+        kauppa.lisaaKoriin(1);
+        kauppa.poistaKorista(1);
+        kauppa.tilimaksu("pekka", "12345");
+        
+        verify(pankki).tilisiirto(eq("pekka"), eq(42), eq("12345"), anyString(), eq(5));
+    }
+    
 
 }
