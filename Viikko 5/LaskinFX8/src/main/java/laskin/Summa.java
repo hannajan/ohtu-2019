@@ -17,6 +17,8 @@ public class Summa extends Komento {
             arvo = Integer.parseInt(syotekentta.getText());
         } catch (Exception e) {
         }
+        setPeruutusarvo();
+        
         sovellus.plus(arvo);
 
         int laskunTulos = sovellus.tulos();

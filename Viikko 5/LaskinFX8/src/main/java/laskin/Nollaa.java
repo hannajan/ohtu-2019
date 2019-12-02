@@ -11,6 +11,9 @@ public class Nollaa extends Komento {
 
     @Override
     public void suorita() {
+        
+        setPeruutusarvo();
+        
         sovellus.nollaa();
 
         int laskunTulos = sovellus.tulos();

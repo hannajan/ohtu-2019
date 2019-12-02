@@ -20,6 +20,9 @@ public class Erotus extends Komento {
             arvo = Integer.parseInt(syotekentta.getText());
         } catch (Exception e) {
         }
+        
+        setPeruutusarvo();
+        
         sovellus.miinus(arvo);
 
         int laskunTulos = sovellus.tulos();
