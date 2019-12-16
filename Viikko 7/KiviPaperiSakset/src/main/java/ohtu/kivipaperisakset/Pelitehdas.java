@@ -15,10 +15,10 @@ public class Pelitehdas {
             return new KPSPelaajaVsPelaaja(io);
         } else if (vastaus.endsWith("b")) {
             tulostaPeliohjeet();
-            return new KPSTekoaly(io);
+            return new KPSTekoaly(io, new Tekoaly());
         } else if (vastaus.endsWith("c")) {
             tulostaPeliohjeet();
-            return new KPSParempiTekoaly(io);
+            return new KPSParempiTekoaly(io, new TekoalyParannettu(20));
         }
         return null;
 
